@@ -1,0 +1,11 @@
+com\mycompany\tokoantik\config\DatabaseConfig.class
+com\mycompany\tokoantik\dao\BarangDao.class
+com\mycompany\tokoantik\model\Barang.class
+com\mycompany\tokoantik\util\Validator.class
+com\mycompany\tokoantik\view\MainView.class
+com\mycompany\tokoantik\controller\BarangController.class
+com\mycompany\tokoantik\Main.class
+com\mycompany\tokoantik\model\BarangAntik.class
+com\mycompany\tokoantik\model\BarangPerhiasan.class
+com\mycompany\tokoantik\dao\BarangDaoImpl.class
+com\mycompany\tokoantik\model\Authenticable.class
