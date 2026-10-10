@@ -394,25 +394,7 @@ Implementasi verifikasi berbeda pada setiap class: `BarangAntik` memeriksa `tahu
 
 ---
 
-## 11. Penerapan Nilai Tambah — ORM
-
-> **[CEK: Bagian ini hanya boleh ada jika ORM benar-benar diterapkan di kode. Jika tidak, hapus seluruh Bagian 11 dan kalimat nilai tambah di Bagian 1. Jika ya, isi dengan data asli di bawah.]**
-
-* **Framework ORM** : `[Hibernate / JPA / lainnya]`
-* **Dependency** : ditambahkan pada `pom.xml`
-* **File konfigurasi** : `[hibernate.cfg.xml / persistence.xml]`
-* **Class entity** : `[nama class + anotasi, mis. @Entity, @Table, @Id, @Column]`
-* **Letak penerapan** : `[nama class, mis. BarangDAOImpl memakai Session / EntityManager]`
-
-Contoh potongan kode:
-
-```java
-// tempel potongan kode ORM asli di sini
-```
-
----
-
-## 12. Validasi dan Exception Handling
+## 11. Validasi dan Exception Handling
 
 Class `Validator` pada package `util` menangani validasi input:
 
@@ -428,61 +410,90 @@ Validasi meliputi input kosong, angka negatif, pilihan menu di luar rentang, dan
 
 ---
 
-## 13. Dokumentasi Output Program
+## 12. Dokumentasi Output Program
 
-> **[CEK: screenshot di bawah berasal dari Mini Project 3. Disarankan diganti dengan screenshot terbaru dari versi database, terutama menu *Tampilkan Semua Barang* yang langsung menampilkan data dari file `.sql`.]**
+Berikut merupakan dokumentasi output program berdasarkan setiap menu yang tersedia pada **Monarch Antiqu'e System**.
 
-### 13.1 Menu Utama
+### 12.1 Menu Utama
+
+Menampilkan menu utama program yang terdiri dari fitur tambah, tampilkan, cari, update, hapus, dan keluar.
 
 <img width="968" height="246" alt="image" src="https://github.com/user-attachments/assets/d1c86ec9-ea3d-4e26-996b-b81ab4f39be8" />
 
-* **Input Control:** menerima integer pada prompt `Pilih menu (1-6):`.
-* **Validasi:** input di luar `1-6` atau non-numerik memicu pesan peringatan dan *re-prompt*.
-* **Control Flow:** pilihan dipetakan dengan `switch-case`.
+**Spesifikasi Teknis & Mekanisme Pengolahan:**
+* **Input Control:** Sistem menerima masukan integer pada prompt `Pilih menu (1-6):`.
+* **Input Validation & Exception Handling:** 
+  * Jika input berada di luar jangkauan angka `1-6` atau berupa karakter non-numerik, sistem akan memicu error handling/pesan peringatan dan melakukan *re-prompt* tanpa menghentikan program.
+* **Control Flow:** Pilihan angka dipetakan menggunakan struktur percabangan (`switch-case`) untuk memanggil masing-masing sub-fungsi/prosedur yang sesuai.
+* **Screen Refresh:** Setiap kali kembali ke Menu Utama, layar terminal dapat dibersihkan (`cls` / `clear`) untuk menjaga kebersihan antarmuka CLI.
+  
+---
 
-### 13.2 Tambah Barang
+### 12.2 Tambah Barang
 
-Barang baru disimpan ke database melalui `INSERT` dengan `PreparedStatement`.
+Menu ini digunakan untuk menambahkan barang baru. Program menyediakan dua jenis barang, yaitu **Barang Antik** dan **Perhiasan**.
 
 #### Tambah Barang Antik
 
 <img width="965" height="225" alt="image" src="https://github.com/user-attachments/assets/deae8bb0-f1ce-48ac-8ed3-8f4bfcc5f615" />
 
+Sub-menu **Tambah Barang Antik** menangani alur masukan data secara berurutan untuk mencatat item baru ke dalam memori sistem. Proses diawali dengan percabangan opsi jenis barang (`1` untuk Barang Antik Umum dan `2` untuk Barang Perhiasan) yang menentukan skema instansiasi objek. Setelah tipe barang dipilih, program mengeksekusi instruksi input linier untuk membaca masukan string pada atribut nama barang dan asal negara, serta melakukan *parsing* numerik pada harga, stok, dan tahun pembuatan. Setiap variabel yang diinputkan akan divalidasi tipe datanya sebelum dimasukkan ke dalam *array* atau struktur data utama. Jika seluruh nilai atribut valid dan operasi penambahan data ke dalam sistem berhasil, program akan mencetak pesan konfirmasi `-> Data barang berhasil ditambahkan!` sebagai penanda akhir eksekusi fungsi.
+
 #### Tambah Barang Perhiasan
 
 <img width="971" height="227" alt="image" src="https://github.com/user-attachments/assets/ac5e7da9-7c9d-436e-acd3-a7042ca7c549" />
 
-Jika berhasil, program menampilkan `-> Data barang berhasil ditambahkan!`.
+Sub-menu **Tambah Barang Perhiasan** bertugas menangani pencatatan item perhiasan ke dalam sistem melalui pemetaan atribut khusus. Ketika pengguna memilih opsi jenis barang `2` pada menu awal, program mengarahkan alur eksekusi untuk menginstansiasi objek khusus perhiasan. Selanjutnya, sistem secara sekuensial meminta masukan input teks untuk nama barang dan material, serta melakukan *parsing* data numerik untuk harga, stok barang, dan berat dalam satuan gram. Seluruh nilai variabel ini divalidasi dan disimpan ke dalam struktur data utama sistem. Setelah semua atribut berhasil dialokasikan, program memberikan respon umpan balik berupa pesan `-> Data barang berhasil ditambahkan!` sebagai penanda bahwa proses penyimpanan data perhiasan telah selesai dilakukan.
 
-### 13.3 Tampilkan Semua Barang
+---
+
+### 12.3 Tampilkan Semua Barang
+
+Menampilkan seluruh barang yang tersimpan dalam sistem beserta informasi seperti ID, nama, jenis, harga, stok, dan atribut khusus barang.
 
 <img width="1321" height="452" alt="image" src="https://github.com/user-attachments/assets/60ab0adf-2fcf-402b-b0ee-ba5d398ad710" />
 
-Data diambil dari database dan ditampilkan dalam tabel CLI. Dummy data dari file `.sql` langsung tampil pada saat pertama kali menu ini dibuka.
+Menu **Tampilkan Semua Barang** menangani proses pemanggilan dan penyajian seluruh koleksi data yang tersimpan di dalam memori sistem ke dalam bentuk tabel tabular CLI. Ketika pengguna memilih opsi `2`, program akan melakukan *traversal* atau iterasi terhadap seluruh objek inventaris dan memformat datanya agar sejajar secara rapi. Setiap baris data menampilkan atribut umum seperti ID, Nama Barang, Jenis, Harga, dan Stok, serta atribut spesifik berdasarkan kelas barang pada kolom Detail & Sertifikat Keaslian. Untuk kategori *Barang Antik*, sistem menampilkan rincian Asal Negara, Tahun Pembuatan, dan Nomor Sertifikat. Sedangkan untuk kategori *Perhiasan*, sistem secara dinamis menyajikan informasi Material (Mat), Berat dalam gram, dan Nomor Sertifikat.
 
-### 13.4 Cari Barang
+---
+
+### 12.4 Cari Barang
+
+Menu **Cari Barang** bertugas menangani pencarian data inventaris berdasarkan metode pencarian yang dipilih oleh pengguna. Saat menu ini dipanggil, sistem menyediakan dua skema pencarian, yaitu pencarian berdasarkan ID (`1`) dan pencarian berdasarkan kata kunci nama (`2`). 
 
 #### Cari Berdasarkan ID
 
 <img width="1270" height="176" alt="image" src="https://github.com/user-attachments/assets/1764add1-fb22-41e6-9ad8-8f7132d99c9f" />
 
+Pada metode pencarian berdasarkan ID, program melakukan *exact matching* atau pencarian presisi pada kunci utama (ID) objek.
+
 #### Cari Berdasarkan Nama
 
 <img width="1332" height="167" alt="image" src="https://github.com/user-attachments/assets/bdd11d4e-1dee-4912-b6a6-e4eb72c0b915" />
 
-### 13.5 Update Barang
+Sedangkan pada metode pencarian berdasarkan nama, program menjalankan pencarian kata kunci (*keyword matching*) yang memeriksa kecocokan string nama barang. Jika data yang dicari ditemukan di dalam sistem, program langsung menampilkan rincian barang tersebut lengkap dengan atribut khusus sesuai jenis kategorinya.
+
+---
+
+### 12.5 Update Barang
+
+Menu **Update Barang** bertugas menangani pembaruan data inventaris yang telah tersimpan berdasarkan ID barang yang dipilih. Saat menu dijalankan, sistem terlebih dahulu menampilkan tabel daftar barang sebagai acuan navigasi pengguna. Setelah pengguna memasukkan ID target, program akan memuat nilai lama (*existing value*) untuk setiap atribut dan memberikan petunjuk pembaruan. Sistem menerapkan mekanisme penanganan input kondisional, di mana jika pengguna menekan tombol `ENTER` tanpa memasukkan teks, nilai lama barang akan tetap dipertahankan. Apabila pengguna mengetikkan input baru, sistem akan melakukan *parsing* serta pembaruan nilai atribut terkait dalam memori. Proses diakhiri dengan respon pesan konfirmasi `-> Barang berhasil diupdate.` sebagai penanda suksesnya pembaruan data.
 
 <img width="1335" height="457" alt="image" src="https://github.com/user-attachments/assets/d25e5999-2fd5-4cc1-a6a2-25b0075640f8" />
 
-Menekan `ENTER` tanpa input mempertahankan nilai lama. Jika berhasil: `-> Barang berhasil diupdate.`
+---
 
-### 13.6 Hapus Barang
+### 12.6 Hapus Barang
+
+Menu **Hapus Barang** bertugas menangani penghapusan entitas data dari struktur data memori berdasarkan ID barang yang ditentukan pengguna. Saat menu diakses, program terlebih dahulu menyajikan tabel daftar barang sebagai referensi visual ID. Sistem dilengkapi dengan mekanisme penanganan kesalahan input (*input error handling*); jika masukan ID bukan berupa angka bulat atau tidak valid, program akan memicu pesan peringatan `-> Input tidak valid! Harap masukkan angka bulat.` dan melakukan *re-prompt* hingga input yang sesuai diberikan. Setelah ID valid diterima, program menjalankan perintah konfirmasi dua arah (`y/n`) untuk memastikan keamanan data. Jika pengguna mengonfirmasi dengan memilih `y`, elemen barang terkait akan dihapus dari daftar dan sistem mengembalikan pesan respon `-> Barang berhasil dihapus.`.
 
 <img width="1328" height="376" alt="image" src="https://github.com/user-attachments/assets/942f28c3-0b14-41a0-8d5a-7ca2eb810807" />
 
-Setelah konfirmasi `y`, data dihapus dari database dan muncul `-> Barang berhasil dihapus.`
+---
 
-### 13.7 Keluar Program
+### 12.7 Keluar Program
+
+Menu **Keluar Program** bertugas menghentikan seluruh eksekusi aplikasi dan memutus perulangan utama (*main loop*) sistem. Saat pengguna memilih opsi `6` pada prompt menu utama, program mengeksekusi perintah terminasi yang mencetak pesan penutup `Terima kasih telah menggunakan Monarch Antiqu'e System!` sebelum mengembalikan status kode keluar secara aman.
 
 <img width="982" height="287" alt="image" src="https://github.com/user-attachments/assets/0e7c835b-823c-417d-ac65-b6886520dbda" />
 
