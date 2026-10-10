@@ -1,6 +1,6 @@
 # Dokumentasi Program Mini Project 4 PBO
 
-## Sistem Manajemen Inventaris Toko Barang Antik (Monarch Antiqu'e) — Versi Database
+## Sistem Manajemen Inventaris Toko Barang Antik (Monarch Antiqu'e)
 
 ---
 
